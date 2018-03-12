@@ -1,0 +1,8 @@
+﻿--SETTINGS--
+id (id of discord application to load from)
+details (first line of text)
+state (second line of text)
+large image name
+large image hover text
+small image name
+small image hover text

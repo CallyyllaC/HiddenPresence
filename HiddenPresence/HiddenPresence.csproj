@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D22AD962-F51D-41C0-86AF-46E4C61F7DC5}</ProjectGuid>
+    <ProjectGuid>{E6F3FECC-943D-45B5-9512-01112A1B7F7E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>HiddenPresence</RootNamespace>
     <AssemblyName>HiddenPresence</AssemblyName>
@@ -40,8 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Discord.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content.txt" />
+    <Content Include="Watching\TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
