@@ -12,43 +12,29 @@ namespace HiddenPresence
         //Text File
         private static string filepath = $"{Directory.GetCurrentDirectory()}\\";
         private static string[] SettingsFile = null;
-        private static FileSystemWatcher watcher;
 
         //discord stuff
         private static Discord.EventHandlers handlers;
 
         static void Main(string[] args)
         {
-            CreateFileWatcher();
+            try { Discord.Shutdown(); }
+            catch { }
+
+            SettingsFile = OpenSettings();
+            Update();
 
             while (true)
             {
-                Console.WriteLine(watcher.WaitForChanged(WatcherChangeTypes.All).ChangeType);
-                Console.WriteLine("Changed");
+                Thread.Sleep(30000);
+                if (!Enumerable.SequenceEqual(SettingsFile, OpenSettings()))
+                {
+                    SettingsFile = OpenSettings();
+                    Update();
+                }
             }
         }
-
-
-        public static void CreateFileWatcher()
-        {
-            // Create FileSystemWatcher
-            watcher = new FileSystemWatcher();
-            watcher.Path = filepath;
-            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Filter = "Discord.txt";
-            watcher.Renamed += new RenamedEventHandler(OnChanged);
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.Created += new FileSystemEventHandler(OnChanged);
-            watcher.EnableRaisingEvents = true;
-        }
-
-        // Define the event handlers.
-        private static void OnChanged(object source, FileSystemEventArgs e)
-        {
-            OpenSettings();
-            Update();
-        }
-
+        
         private static void Update()
         {
             try { Discord.Shutdown(); }
@@ -70,13 +56,16 @@ namespace HiddenPresence
             catch { }
         }
 
-        private static void OpenSettings()
+        private static string[] OpenSettings()
         {
+            string[] Settings = null;
             try
             {
-                SettingsFile = File.ReadAllLines($"{filepath}\\Discord.txt");
+                Settings = File.ReadAllLines($"{filepath}\\Discord.txt");
             }
             catch { }
+
+            return Settings;
         }
     }
 }
